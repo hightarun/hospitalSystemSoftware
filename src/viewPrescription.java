@@ -21,21 +21,19 @@ public class viewPrescription extends javax.swing.JFrame {
         initComponents();  
     }
     
-     String uCtype;
     String nuctype;
+    int userId;
 
     public viewPrescription(String uctype) {
         
-        this.uCtype = uctype;
-        nuctype = uCtype;
+        this.nuctype = uctype;
         initComponents();
         Connect();
         disButton();
         Pres_table();
     }
     
-    
-     Connection con;
+    Connection con;
     PreparedStatement pst;
     ResultSet rs;
 
@@ -44,8 +42,7 @@ public class viewPrescription extends javax.swing.JFrame {
                 jButton1.setVisible(false);
             }
         }
-    
-    
+
        public void Connect()
      {
         try {

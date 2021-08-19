@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 public class Doctor extends javax.swing.JFrame {
 
     /**
@@ -97,7 +98,7 @@ public class Doctor extends javax.swing.JFrame {
              rs= pst.executeQuery();
       
       
-      ResultSetMetaData Rsm =rs.getMetaData();
+            ResultSetMetaData Rsm =rs.getMetaData();
           int c;
           c =Rsm.getColumnCount();
           DefaultTableModel df = (DefaultTableModel)jTable1.getModel();

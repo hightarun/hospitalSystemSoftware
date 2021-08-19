@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class PharmaDashboard extends javax.swing.JFrame {
 
     /**
@@ -59,7 +60,6 @@ public class PharmaDashboard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -86,16 +86,6 @@ public class PharmaDashboard extends javax.swing.JFrame {
         jLabel2.setText("   DASHBOARD");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 280, 60));
 
-        jButton2.setBackground(new java.awt.Color(204, 153, 255));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton2.setText("Update Info");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 140, 40));
-
         jButton3.setBackground(new java.awt.Color(204, 153, 255));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton3.setText("Change Password");
@@ -104,7 +94,7 @@ public class PharmaDashboard extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, -1, 40));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, -1, 40));
 
         jButton1.setBackground(new java.awt.Color(204, 153, 255));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -114,7 +104,7 @@ public class PharmaDashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 430, 140, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, 140, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 660));
 
@@ -185,10 +175,6 @@ public class PharmaDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ChangePassword ch = new ChangePassword(userid);
         ch.setVisible(true);
@@ -254,7 +240,6 @@ public class PharmaDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

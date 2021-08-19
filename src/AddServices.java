@@ -8,10 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class AddServices extends javax.swing.JFrame {
-
-    /**
-     * Creates new form AddServices
-     */
+    
     public AddServices() {
         initComponents();
     }

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 public class PatientAdmit extends javax.swing.JFrame {
 
   
@@ -52,6 +53,7 @@ public class PatientAdmit extends javax.swing.JFrame {
         txtdocname = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtremark = new javax.swing.JTextArea();
+        txtdate = new com.toedter.calendar.JDateChooser();
         cmbRoomNo = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
         txtspecial = new javax.swing.JTextField();
@@ -222,6 +224,7 @@ public class PatientAdmit extends javax.swing.JFrame {
                                     .addComponent(cmbRoomNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(txtdocname, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txtpname, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtblood, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(txtgender, javax.swing.GroupLayout.Alignment.LEADING)
@@ -259,7 +262,9 @@ public class PatientAdmit extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtdes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -589,6 +594,7 @@ public class PatientAdmit extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     public javax.swing.JTextField txtblood;
+    private com.toedter.calendar.JDateChooser txtdate;
     public javax.swing.JTextField txtdes;
     public javax.swing.JTextField txtdocname;
     public javax.swing.JTextField txtgender;

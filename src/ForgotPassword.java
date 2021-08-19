@@ -8,6 +8,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author wayne
+ */
 public class ForgotPassword extends javax.swing.JFrame {
     int randomCode;
     
@@ -157,7 +167,6 @@ public class ForgotPassword extends javax.swing.JFrame {
         props.put("mail.smtp.port", "25");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.required", "true");
-        java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         Session mailSession = Session.getDefaultInstance(props, null);
         mailSession.setDebug(sessionDebug);
         Message msg = new MimeMessage(mailSession);

@@ -62,7 +62,6 @@ public class Login extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -152,15 +151,6 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel6.setText("About Us");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
-        });
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 570, 70, 20));
-
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 910, -1));
 
         jPanel2.setBackground(new java.awt.Color(248, 148, 6));
@@ -243,7 +233,7 @@ public class Login extends javax.swing.JFrame {
                 else if (txtutype.getSelectedIndex()==1)
                 {
                    int userid = rs.getInt("id");
-                    RecepDashboard rec = new RecepDashboard(userid);
+                    RecepDashboard rec = new RecepDashboard(userid , utype);
                     rec.setVisible(true);
                     this.setVisible(false);
                 }
@@ -292,12 +282,6 @@ public class Login extends javax.swing.JFrame {
         u.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
-        About ab = new About();
-        ab.setVisible(true);
-    }//GEN-LAST:event_jLabel6MouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -342,7 +326,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

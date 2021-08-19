@@ -114,10 +114,6 @@ public class Channel extends javax.swing.JFrame {
         
     }
             
-    
-    
-    
-    
     public void Connect()
      {
         try {
@@ -223,6 +219,7 @@ public class Channel extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         txttime = new com.github.lgooddatepicker.components.TimePicker();
         jLabel7 = new javax.swing.JLabel();
+        txtdate = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
@@ -296,6 +293,7 @@ public class Channel extends javax.swing.JFrame {
         jLabel7.setText("Channel Date");
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 267, -1, -1));
+        jPanel2.add(txtdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 270, -1, -1));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -507,6 +505,7 @@ public class Channel extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblchno;
+    private com.toedter.calendar.JDateChooser txtdate;
     private javax.swing.JComboBox txtdoctor;
     private javax.swing.JComboBox txtpatient;
     private javax.swing.JSpinner txtroom;

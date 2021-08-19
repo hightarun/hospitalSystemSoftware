@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 public class Inventory extends javax.swing.JFrame {
 
     /**
@@ -455,8 +456,9 @@ public class Inventory extends javax.swing.JFrame {
                 qty = Integer.parseInt(txtqty.getValue().toString());
                 int tot = sellprice * qty;
                 if (qty >= currentqty) {
-                    JOptionPane.showMessageDialog(this, "Available Product" + " = " + currentqty);
                     JOptionPane.showMessageDialog(this, "Qty is not Enough");
+                    JOptionPane.showMessageDialog(this, "Available Product" + " = " + currentqty);
+                    
 
                 } else {
 
@@ -471,6 +473,12 @@ public class Inventory extends javax.swing.JFrame {
                     int sum = 0;
                     for (int i = 0; i < jTable1.getRowCount(); i++) {
                         sum = sum + Integer.parseInt(jTable1.getValueAt(i, 5).toString());
+                        upqty = currentqty - qty;
+                        System.out.println(upqty);
+                        pst = con.prepareStatement("update item set qty = ? where itemid = ?");
+                        pst.setInt(1, upqty);
+                        pst.setString(2, dcode);
+                        pst.executeUpdate();
                     }
                     txtcost.setText(Integer.toString(sum));
                     txtcode.setText("");
@@ -478,13 +486,7 @@ public class Inventory extends javax.swing.JFrame {
                     txtqty.setValue(0);
                     txtcode.requestFocus();
                 }
-                upqty = currentqty - qty;
-                System.out.println(upqty);
-                pst = con.prepareStatement("update item set qty = ? where itemid = ?");
-                pst.setInt(1, upqty);
-                pst.setString(2, dcode);
-
-                pst.executeUpdate();
+                
             }
         } catch (SQLException ex) {
 

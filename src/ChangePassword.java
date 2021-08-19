@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
+
 public class ChangePassword extends javax.swing.JFrame {
  Connection con = null;
     ResultSet rs = null;
@@ -37,16 +38,14 @@ public class ChangePassword extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        txtresetpass = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtresetpass2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        txtresetpass1 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtresetpass3 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        txtresetpass2 = new javax.swing.JPasswordField();
+        txtresetpass3 = new javax.swing.JPasswordField();
+        txtresetpass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Change Password");
@@ -79,29 +78,15 @@ public class ChangePassword extends javax.swing.JFrame {
 
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        txtresetpass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtresetpassActionPerformed(evt);
-            }
-        });
-        jPanel3.add(txtresetpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 340, 270, 30));
-
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("New Password");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 200, 50));
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 200, 50));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Enter New Password Again");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 330, 40));
-
-        txtresetpass2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtresetpass2ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(txtresetpass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 410, 270, 30));
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, 330, 40));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1.setText("CHANGE PASSWORD");
@@ -115,26 +100,7 @@ public class ChangePassword extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Current Password");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 250, 50));
-
-        txtresetpass1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtresetpass1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(txtresetpass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 270, 270, 30));
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Enter your E-Mail");
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 250, 50));
-
-        txtresetpass3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtresetpass3ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(txtresetpass3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 190, 270, 30));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, 250, 50));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setText("Exit");
@@ -144,6 +110,15 @@ public class ChangePassword extends javax.swing.JFrame {
             }
         });
         jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 580, 100, 50));
+        jPanel3.add(txtresetpass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 370, 270, 40));
+        jPanel3.add(txtresetpass3, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 210, 270, 40));
+
+        txtresetpass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtresetpassActionPerformed(evt);
+            }
+        });
+        jPanel3.add(txtresetpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 290, 270, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,33 +145,30 @@ public class ChangePassword extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtresetpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtresetpassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtresetpassActionPerformed
-
-    private void txtresetpass2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtresetpass2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtresetpass2ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         boolean flag = false;
+        String password = txtresetpass.getText();
         try{
-               
+                if(password.length() > 6){
                 String Query = "SELECT password FROM user where id = '"+userId+"'";
                 //"UPDATE user SET password=? WHERE email="+user+"";
                 con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
                 pst=con.prepareStatement(Query);
                 rs = pst.executeQuery();
                 rs.next();
-                if(!(txtresetpass1.getText().equals(rs.getString(1))))
+                if(!(txtresetpass3.getText().equals(rs.getString(1))))
                 {
                     JOptionPane.showMessageDialog(null, "Current password is incorrect");
                     return;
-                }
+                }  
                 else{
                     flag = true;
-                }
+                }}
+                else {
+                JOptionPane.showMessageDialog(this,"Passwords must have at least 6 characters.");
+               
+            }
    
             }catch(Exception ex){
                 JOptionPane.showMessageDialog(null, ex);
@@ -220,20 +192,19 @@ public class ChangePassword extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "password do not match");
         }
+        txtresetpass.setText("");
+        txtresetpass2.setText("");
+        txtresetpass3.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtresetpass1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtresetpass1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtresetpass1ActionPerformed
-
-    private void txtresetpass3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtresetpass3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtresetpass3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtresetpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtresetpassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtresetpassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,12 +248,10 @@ public class ChangePassword extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField txtresetpass;
-    private javax.swing.JTextField txtresetpass1;
-    private javax.swing.JTextField txtresetpass2;
-    private javax.swing.JTextField txtresetpass3;
+    private javax.swing.JPasswordField txtresetpass;
+    private javax.swing.JPasswordField txtresetpass2;
+    private javax.swing.JPasswordField txtresetpass3;
     // End of variables declaration//GEN-END:variables
 }

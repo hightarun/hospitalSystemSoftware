@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 public class Discharge extends javax.swing.JFrame {
 
     /**
@@ -76,6 +77,8 @@ public class Discharge extends javax.swing.JFrame {
         txtroomno = new javax.swing.JTextField();
         txtdoc = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        txtadate = new com.toedter.calendar.JDateChooser();
+        txtdate = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         servicename = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -153,6 +156,8 @@ public class Discharge extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setText("Exit");
         jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 630, 119, 40));
+        jPanel1.add(txtadate, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 190, -1));
+        jPanel1.add(txtdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 190, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("Discharge Date");
@@ -409,8 +414,8 @@ public class Discharge extends javax.swing.JFrame {
             doc.add(table);
             
            
-            float taxs = Float.parseFloat(billTotalCost)*0.05f;
-            float totalCost = Float.parseFloat(billTotalCost) -taxs;
+            float taxs = Float.parseFloat(totalcost.getText())*0.05f;
+            float totalCost = Float.parseFloat(totalcost.getText());
             Paragraph paragraph4 = new Paragraph("\n\n\n\n\n\n                                                                                                                     Total : "+ totalCost);
             doc.add(paragraph4);
             Paragraph paragraph12 = new Paragraph("\n                                                                                                                  Tax(5%) : "+ taxs);
@@ -701,6 +706,8 @@ public class Discharge extends javax.swing.JFrame {
     public javax.swing.JComboBox servicename;
     public javax.swing.JTextField totalbill;
     public javax.swing.JTextField totalcost;
+    private com.toedter.calendar.JDateChooser txtadate;
+    private com.toedter.calendar.JDateChooser txtdate;
     public javax.swing.JTextField txtdoc;
     public javax.swing.JTextField txtpname;
     public javax.swing.JTextField txtroomno;

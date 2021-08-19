@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class RecepDashboard extends javax.swing.JFrame {
 
     /**
@@ -20,6 +21,7 @@ public class RecepDashboard extends javax.swing.JFrame {
     }
 
     int userId;
+    String userType;
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
@@ -35,10 +37,11 @@ public class RecepDashboard extends javax.swing.JFrame {
         }
     }
     
-    public RecepDashboard(int id) {
+    public RecepDashboard(int id , String utype) {
         initComponents();
         Connect();
         this.userId = id;
+        this.userType = utype;
     }
 
     /**
@@ -53,7 +56,6 @@ public class RecepDashboard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -83,16 +85,6 @@ public class RecepDashboard extends javax.swing.JFrame {
         jLabel4.setText("   Receptionist");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 230, 60));
 
-        jButton2.setBackground(new java.awt.Color(204, 153, 255));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton2.setText("Update Info");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 140, 40));
-
         jButton3.setBackground(new java.awt.Color(204, 153, 255));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton3.setText("Change Password");
@@ -101,7 +93,7 @@ public class RecepDashboard extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, -1, 40));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, -1, 40));
 
         jButton1.setBackground(new java.awt.Color(204, 153, 255));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -111,7 +103,7 @@ public class RecepDashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 430, 140, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 360, 140, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 640));
 
@@ -133,6 +125,11 @@ public class RecepDashboard extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-user-male-64.png"))); // NOI18N
         jLabel7.setText("  Register Patient");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 310, 70));
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
@@ -186,6 +183,11 @@ public class RecepDashboard extends javax.swing.JFrame {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-doctor-male-48 (1).png"))); // NOI18N
         jLabel10.setText("  Register Doctor");
+        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel10MouseClicked(evt);
+            }
+        });
         jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 290, 300, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -204,10 +206,6 @@ public class RecepDashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // change password
@@ -239,6 +237,18 @@ public class RecepDashboard extends javax.swing.JFrame {
         Discharge disadmit = new Discharge();
         disadmit.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        Patient reg = new Patient();
+        reg.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+        // TODO add your handling code here:
+        Doctor doc = new Doctor(userId,userType);
+        doc.setVisible(true);
+    }//GEN-LAST:event_jLabel10MouseClicked
 
     /**
      * @param args the command line arguments
@@ -277,7 +287,6 @@ public class RecepDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class DoctorDashboard extends javax.swing.JFrame {
 
     /**
@@ -25,7 +26,6 @@ public class DoctorDashboard extends javax.swing.JFrame {
     String uctype;
     int newid;
     String uname;
-    String usertype;
 
     Connection con;
     PreparedStatement pst;
@@ -47,9 +47,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
         Connect();
         this.uname = username;
         this.newid = id;
-        idd = newid;
-        System.out.println(idd);
-        uctype = usertype;
+        uctype =utype;
 
     }
 
@@ -120,6 +118,11 @@ public class DoctorDashboard extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/icons8-paid-bill-64.png"))); // NOI18N
         jLabel5.setText("  View Prescription");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 390, 340, 90));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -176,7 +179,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ChangePassword change = new ChangePassword();
+        ChangePassword change = new ChangePassword(newid);
         change.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -192,9 +195,15 @@ public class DoctorDashboard extends javax.swing.JFrame {
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         
-        viewChannel vC = new viewChannel(idd);
+        viewChannel vC = new viewChannel(newid);
         vC.setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+        viewPrescription vp = new viewPrescription(uctype);
+        vp.setVisible(true);
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
