@@ -18,21 +18,16 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
 
-    
-    
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
-    
-    
+
     public void Connect()
-    {
-        
+    {   
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
              con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
-                        
-            
+                       
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -101,6 +96,11 @@ public class Login extends javax.swing.JFrame {
 
         txtutype.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txtutype.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Doctor", "Receptionist", "Pharmacist", "ADMIN" }));
+        txtutype.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtutypeActionPerformed(evt);
+            }
+        });
         jPanel1.add(txtutype, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 350, 180, 30));
 
         jButton1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
@@ -281,6 +281,10 @@ public class Login extends javax.swing.JFrame {
        ForgotPassword u = new ForgotPassword();
         u.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtutypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtutypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtutypeActionPerformed
 
     /**
      * @param args the command line arguments
