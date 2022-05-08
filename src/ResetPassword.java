@@ -6,22 +6,21 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 public class ResetPassword extends javax.swing.JFrame {
+
     Connection con = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
     public String user;
 
-    /**
-     * Creates new form ResetPassword
-     */
     public ResetPassword() {
         initComponents();
     }
-    public ResetPassword(String email)
-    {
-        this.user=email;
+
+    public ResetPassword(String email) {
+        this.user = email;
         initComponents();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -111,24 +110,23 @@ public class ResetPassword extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-       if(txtresetpass2.getText().equals(txtresetpass2.getText())){
+        if (txtresetpass2.getText().equals(txtresetpass2.getText())) {
 //check whether the user enter same password in both textfield
-try{
-String updateQuery = "UPDATE `user` SET `password`= ? WHERE email = '"+user+"'";
+            try {
+                String updateQuery = "UPDATE `user` SET `password`= ? WHERE email = '" + user + "'";
 //"UPDATE user SET password=? WHERE email="+user+""; 
-con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
-pst=con.prepareStatement(updateQuery);
-pst.setString(1, txtresetpass2.getText());
-pst.executeUpdate();
-JOptionPane.showMessageDialog(null, "Reset Successfully");
- 
- 
-}catch(Exception ex){
-JOptionPane.showMessageDialog(null, ex);
-}
-}else{
-JOptionPane.showMessageDialog(null, "password do not match");
-}
+                con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
+                pst = con.prepareStatement(updateQuery);
+                pst.setString(1, txtresetpass2.getText());
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Reset Successfully");
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "password do not match");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

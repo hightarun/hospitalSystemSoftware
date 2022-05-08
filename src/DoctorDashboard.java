@@ -7,19 +7,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class DoctorDashboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DoctorDashboard
-     */
     public DoctorDashboard() {
-       
-     
+
         initComponents();
         Connect();
-      
-     
+
     }
 
     int idd;
@@ -47,7 +41,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
         Connect();
         this.uname = username;
         this.newid = id;
-        uctype =utype;
+        uctype = utype;
 
     }
 
@@ -184,8 +178,8 @@ public class DoctorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    this.setVisible(false);
-    new Login().setVisible(true);
+        this.setVisible(false);
+        new Login().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
@@ -194,7 +188,7 @@ public class DoctorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        
+
         viewChannel vC = new viewChannel(newid);
         vC.setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked

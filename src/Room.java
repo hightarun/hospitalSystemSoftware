@@ -12,21 +12,15 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
-
-
-
 public class Room extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Room
-     */
     public Room() {
-         initComponents();
+        initComponents();
         Connect();
         AutoID();
         Get_Data();
     }
-     Connection con;
+    Connection con;
     PreparedStatement pst;
     ResultSet rs;
 
@@ -40,62 +34,52 @@ public class Room extends javax.swing.JFrame {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    public void AutoID()
-     {
+
+    public void AutoID() {
         try {
             Statement s = con.createStatement();
             rs = s.executeQuery("Select MAX(RoomNo) from Room");
             rs.next();
-           
-            if(rs.getInt("MAX(RoomNo)")== 0){
-             
-                    txtRoomNo.setText("1");
-              
-            }
-            else{
-                
-                txtRoomNo.setText(Integer.toString(rs.getInt("MAX(RoomNo)")+1));
-                
+
+            if (rs.getInt("MAX(RoomNo)") == 0) {
+
+                txtRoomNo.setText("1");
+
+            } else {
+
+                txtRoomNo.setText(Integer.toString(rs.getInt("MAX(RoomNo)") + 1));
+
 //            long id =Long.parseLong(rs.getString("MAX(RoomNo)").substring(2,rs.getString("MAX(RoomNo)").length()));
 //            id++;
 //              txtRoomNo.setText(String.format("%03d", id));
-         }
-            
-            
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     
-     
-     
-     
-     
-     
-     } 
-private void Reset()
-{
-    
-    txtRoomCharges.setText("");
-    btnSave.setEnabled(true);
-    btnDelete.setEnabled(false);
-    btnUpdate.setEnabled(false);
-    txtRoomNo.requestDefaultFocus();
-    Get_Data();
-}
-  private void Get_Data(){
-     String sql="select RoomNo as 'Room No.',RoomType as 'Room Type', RoomCharges as 'Room Charges',RoomStatus as 'Room Status' from Room";
-     try{
-         pst=con.prepareStatement(sql);
-          rs= pst.executeQuery();
-         Room_table.setModel(DbUtils.resultSetToTableModel(rs));
-         }catch(Exception e){
+    }
+
+    private void Reset() {
+
+        txtRoomCharges.setText("");
+        btnSave.setEnabled(true);
+        btnDelete.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        txtRoomNo.requestDefaultFocus();
+        Get_Data();
+    }
+
+    private void Get_Data() {
+        String sql = "select RoomNo as 'Room No.',RoomType as 'Room Type', RoomCharges as 'Room Charges',RoomStatus as 'Room Status' from Room";
+        try {
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            Room_table.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
-          
-}}
-    
+
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -274,130 +258,125 @@ private void Reset()
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtRoomChargesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRoomChargesKeyTyped
-        
+
     }//GEN-LAST:event_txtRoomChargesKeyTyped
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try{
-            
+        try {
+
             if (txtRoomNo.getText().equals("")) {
-                JOptionPane.showMessageDialog( this, "Please enter room no.","Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter room no.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (cmbRoomType.getSelectedItem().equals("")) {
-                JOptionPane.showMessageDialog( this, "Please select room type","Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please select room type", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (txtRoomCharges.getText().equals("")) {
-                JOptionPane.showMessageDialog( this, "Please enter room Charges","Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter room Charges", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             Statement stmt;
-            stmt= con.createStatement();
-            String sql1="Select RoomNo from Room where RoomNo= '" + txtRoomNo.getText() + "'";
-            rs=stmt.executeQuery(sql1);
-            if(rs.next()){
-                JOptionPane.showMessageDialog( this, "Room No. already exists","Error", JOptionPane.ERROR_MESSAGE);
+            stmt = con.createStatement();
+            String sql1 = "Select RoomNo from Room where RoomNo= '" + txtRoomNo.getText() + "'";
+            rs = stmt.executeQuery(sql1);
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Room No. already exists", "Error", JOptionPane.ERROR_MESSAGE);
                 txtRoomNo.setText("");
                 txtRoomNo.requestDefaultFocus();
                 return;
             }
 
-            String sql= "insert into Room(RoomNo,RoomType,RoomCharges,RoomStatus)values('"+ txtRoomNo.getText() + "','"+ cmbRoomType.getSelectedItem() + "'," + txtRoomCharges.getText() + ",'Vacant')";
-            pst=con.prepareStatement(sql);
+            String sql = "insert into Room(RoomNo,RoomType,RoomCharges,RoomStatus)values('" + txtRoomNo.getText() + "','" + cmbRoomType.getSelectedItem() + "'," + txtRoomCharges.getText() + ",'Vacant')";
+            pst = con.prepareStatement(sql);
             pst.execute();
 
-            JOptionPane.showMessageDialog(this,"Successfully saved","Room Record",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Successfully saved", "Room Record", JOptionPane.INFORMATION_MESSAGE);
             AutoID();
             Get_Data();
-            
-            
+
             Reset();
-            }catch(HeadlessException | SQLException ex){
-            JOptionPane.showMessageDialog(this,ex);
+        } catch (HeadlessException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
         }
-        
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        try{
-            
-            String sql= "update Room set Roomtype='"+ cmbRoomType.getSelectedItem() + "',RoomCharges=" + txtRoomCharges.getText() + " where RoomNo='" + txtRoomNo.getText() + "'";
-            pst=con.prepareStatement(sql);
+        try {
+
+            String sql = "update Room set Roomtype='" + cmbRoomType.getSelectedItem() + "',RoomCharges=" + txtRoomCharges.getText() + " where RoomNo='" + txtRoomNo.getText() + "'";
+            pst = con.prepareStatement(sql);
             pst.execute();
-            JOptionPane.showMessageDialog(this,"Successfully updated","Room Record",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Successfully updated", "Room Record", JOptionPane.INFORMATION_MESSAGE);
             btnUpdate.setEnabled(false);
             Get_Data();
             AutoID();
-        }catch(HeadlessException | SQLException ex){
-            JOptionPane.showMessageDialog(this,ex);
+        } catch (HeadlessException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        try
-        {
-            int P = JOptionPane.showConfirmDialog(null," Are you sure want to delete ?","Confirmation",JOptionPane.YES_NO_OPTION);
-            if (P==0)
-            {
-                
+        try {
+            int P = JOptionPane.showConfirmDialog(null, " Are you sure want to delete ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            if (P == 0) {
 
-                String sql= "delete from Room where RoomNo = '" + txtRoomNo.getText() + "'";
-                pst=con.prepareStatement(sql);
+                String sql = "delete from Room where RoomNo = '" + txtRoomNo.getText() + "'";
+                pst = con.prepareStatement(sql);
                 pst.execute();
-                JOptionPane.showMessageDialog(this,"Successfully deleted","Record",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Successfully deleted", "Record", JOptionPane.INFORMATION_MESSAGE);
                 Reset();
-    
+
             }
             AutoID();
-        }catch(HeadlessException | SQLException ex){
-            JOptionPane.showMessageDialog(this,ex);
+        } catch (HeadlessException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
         }
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void Room_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Room_tableMouseClicked
-        try{
-            
-            int row= Room_table.getSelectedRow();
-            String table_click= Room_table.getModel().getValueAt(row, 0).toString();
-            String sql= "select * from Room where RoomNo = '" + table_click + "'";
-            pst=con.prepareStatement(sql);
-            rs=  pst.executeQuery();
-            if(rs.next()){
+        try {
 
-                String add1=rs.getString("RoomNo");
+            int row = Room_table.getSelectedRow();
+            String table_click = Room_table.getModel().getValueAt(row, 0).toString();
+            String sql = "select * from Room where RoomNo = '" + table_click + "'";
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+
+                String add1 = rs.getString("RoomNo");
                 txtRoomNo.setText(add1);
-                String add2=rs.getString("RoomType");
+                String add2 = rs.getString("RoomType");
                 cmbRoomType.setSelectedItem(add2);
                 int add3 = rs.getInt("RoomCharges");
-                String add4= Integer.toString(add3);
+                String add4 = Integer.toString(add3);
                 txtRoomCharges.setText(add4);
                 btnUpdate.setEnabled(true);
                 btnDelete.setEnabled(true);
                 btnSave.setEnabled(false);
 
             }
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(this,ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex);
         }
     }//GEN-LAST:event_Room_tableMouseClicked
 
     private void cmbRoomTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoomTypeActionPerformed
         if (cmbRoomType.getSelectedItem().equals("General")) {
-                txtRoomCharges.setText("1200");
-            }else if(cmbRoomType.getSelectedItem().equals("Deluxe")) {
-                txtRoomCharges.setText("2500");
-            }
-        else  {
-                txtRoomCharges.setText("");
-            }
+            txtRoomCharges.setText("1200");
+        } else if (cmbRoomType.getSelectedItem().equals("Deluxe")) {
+            txtRoomCharges.setText("2500");
+        } else {
+            txtRoomCharges.setText("");
+        }
     }//GEN-LAST:event_cmbRoomTypeActionPerformed
 
     private void btnNew1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNew1ActionPerformed
         // TODO add your handling code here:
-        
+
         this.setVisible(false);
     }//GEN-LAST:event_btnNew1ActionPerformed
 

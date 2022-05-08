@@ -12,102 +12,85 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class User extends javax.swing.JFrame {
 
-    /**
-     * Creates new form User
-     */
     public User() {
         initComponents();
         Connect();
-         AutoID();
+        AutoID();
         User_table();
-       
+
     }
-    
+
     Connection con;
     PreparedStatement pst;
-    ResultSet rs,is;
-    
-    
-    public void Connect()
-    {
-        
+    ResultSet rs, is;
+
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-             con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
-                        
-            
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-  
-        public void User_table()
-     {
+
+    public void User_table() {
         try {
-            pst=con.prepareStatement("select * from user");
-            
-             rs= pst.executeQuery();
-     
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-          
-          df.setRowCount(0);
-        
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString("id"));
-           v2.add(rs.getString("username"));
-           v2.add(rs.getString("email"));
-           v2.add(rs.getString("utype"));
-                     
-          }
-           df.addRow(v2);
-          }
-          
- 
-          
+            pst = con.prepareStatement("select * from user");
+
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+            df.setRowCount(0);
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("username"));
+                    v2.add(rs.getString("email"));
+                    v2.add(rs.getString("utype"));
+
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
-     
-     
-  public void AutoID()
-     {
-         
+    }
+
+    public void AutoID() {
+
         try {
             Statement s = con.createStatement();
             rs = s.executeQuery("Select MAX(id) from user");
             rs.next();
-           
-            if(rs.getInt("MAX(id)")== 0){
-             
-                    txtid.setText("1");
-              
+
+            if (rs.getInt("MAX(id)") == 0) {
+
+                txtid.setText("1");
+
+            } else {
+
+                txtid.setText(Integer.toString(rs.getInt("MAX(id)") + 1));
+
             }
-            else{
-                
-                txtid.setText(Integer.toString(rs.getInt("MAX(id)")+1));
-                
-         }   
-        
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-     }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -274,47 +257,46 @@ public class User extends javax.swing.JFrame {
         String username = txtusername.getText();
         String password = txtpassword.getText();
         String utype = txtutype.getSelectedItem().toString();
-        
-        
+
         Connect();
-       
+
         try {
-            if(password.length() > 6){
-            pst = con.prepareStatement("insert into user(id, name, email, username, password, utype)values(?,?,?,?,?,?)");
-            pst.setString(1, id);
-            pst.setString(2, name);
-            pst.setString(3, email);
-            pst.setString(4, username);
-            pst.setString(5, password);
-            pst.setString(6, utype);
-            pst.executeUpdate();
-            
-            JOptionPane.showMessageDialog(this,"User Inserted");
-            txtid.setText("");
-            txtname.setText("");
-            txtemail.setText("");
-            txtusername.setText("");
-            txtpassword.setText("");
-            txtutype.setSelectedIndex(-1);
-            txtname.requestFocus();
-            
-            User_table();
+            if (password.length() > 6) {
+                pst = con.prepareStatement("insert into user(id, name, email, username, password, utype)values(?,?,?,?,?,?)");
+                pst.setString(1, id);
+                pst.setString(2, name);
+                pst.setString(3, email);
+                pst.setString(4, username);
+                pst.setString(5, password);
+                pst.setString(6, utype);
+                pst.executeUpdate();
+
+                JOptionPane.showMessageDialog(this, "User Inserted");
+                txtid.setText("");
+                txtname.setText("");
+                txtemail.setText("");
+                txtusername.setText("");
+                txtpassword.setText("");
+                txtutype.setSelectedIndex(-1);
+                txtname.requestFocus();
+
+                User_table();
             } else {
-                JOptionPane.showMessageDialog(this,"Passwords must have at least 6 characters.");
-               
+                JOptionPane.showMessageDialog(this, "Passwords must have at least 6 characters.");
+
             }
-            
+
             AutoID();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-this.setVisible(false);  
+        this.setVisible(false);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -322,30 +304,26 @@ this.setVisible(false);
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         //int row = jTable1.getSelectedRow();
-       // String cell = jTable1.getModel().getValueAt(row,0).toString();
+        // String cell = jTable1.getModel().getValueAt(row,0).toString();
         //System.out.println(cell);
         //String sql = "delete from users where id = ?" + cell;
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int SelectIndex = jTable1.getSelectedRow();
-        String delId = d1.getValueAt(SelectIndex,0).toString();
+        String delId = d1.getValueAt(SelectIndex, 0).toString();
         try {
             pst = con.prepareStatement("delete from user where id = ?");
             pst.setString(1, delId);
             pst.execute();
             JOptionPane.showMessageDialog(this, " Deleted!");
-            
+
             User_table();
             AutoID();
-        
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
-        
-        
-    /*    
+
+        /*    
          try {
             pst = con.prepareStatement("delete from user where id = ?");
             pst.executeUpdate();
@@ -362,8 +340,7 @@ this.setVisible(false);
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-*/
-                                           
+         */
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -373,7 +350,7 @@ this.setVisible(false);
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-     /*     DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        /*     DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
         int SelectIndex = jTable1.getSelectedRow();
 
         lbldno.setText(d1.getValueAt(SelectIndex,0).toString());
@@ -385,7 +362,7 @@ this.setVisible(false);
         txtroom.setValue(Integer.parseInt(d1.getValueAt(SelectIndex, 6).toString()));
 
         jButton1.setEnabled(false);
-        */
+         */
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void txtemailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtemailActionPerformed

@@ -8,23 +8,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author wayne
- */
 public class ForgotPassword extends javax.swing.JFrame {
-    int randomCode;
-    
 
-    /**
-     * Creates new form ForgotPassword
-     */
+    int randomCode;
+
     public ForgotPassword() {
         initComponents();
     }
@@ -147,52 +134,49 @@ public class ForgotPassword extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEmailActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        try{
-            
-                  
-        Random rand = new Random();
-        randomCode = rand.nextInt(999999);
-        
-        String host = "smtp.gmail.com";
-        String user = "hospitalsystem111@gmail.com";
-        String pass = "Hospital111";
-        String to = txtEmail.getText();
-        String Subject = "Reset Code";
-        String message = "Your Reset Code is "+randomCode;
-        boolean sessionDebug = false;
-        Properties props = System.getProperties();
-        props.put("mail.smtp.starttls.enable","true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "host");
-        props.put("mail.smtp.port", "25");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.required", "true");
-        Session mailSession = Session.getDefaultInstance(props, null);
-        mailSession.setDebug(sessionDebug);
-        Message msg = new MimeMessage(mailSession);
-        msg.setFrom(new InternetAddress(user));
-        InternetAddress [] address = {new InternetAddress(to)};
-        msg.setRecipients(Message.RecipientType.TO, address);
-        msg.setSubject(Subject);
-        msg.setText(message);
-        Transport transport = mailSession.getTransport("smtps");
-        transport.connect(host, user, pass);
-        transport.sendMessage(msg, msg.getAllRecipients());
-        transport.close();
-        JOptionPane.showMessageDialog(null, "You will receive the code if ur email is registered in the database");
-}catch(Exception ex){
-JOptionPane.showMessageDialog(rootPane, ex);}
+        try {
+            Random rand = new Random();
+            randomCode = rand.nextInt(999999);
+
+            String host = "smtp.gmail.com";
+            String user = "hospitalgtr@gmail.com";
+            String pass = "Hospital@123";
+            String to = txtEmail.getText();
+            String Subject = "Reset Code";
+            String message = "Your Reset Code is " + randomCode;
+            boolean sessionDebug = false;
+            Properties props = System.getProperties();
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "host");
+            props.put("mail.smtp.port", "25");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.required", "true");
+            Session mailSession = Session.getDefaultInstance(props, null);
+            mailSession.setDebug(sessionDebug);
+            Message msg = new MimeMessage(mailSession);
+            msg.setFrom(new InternetAddress(user));
+            InternetAddress[] address = {new InternetAddress(to)};
+            msg.setRecipients(Message.RecipientType.TO, address);
+            msg.setSubject(Subject);
+            msg.setText(message);
+            Transport transport = mailSession.getTransport("smtps");
+            transport.connect(host, user, pass);
+            transport.sendMessage(msg, msg.getAllRecipients());
+            transport.close();
+            JOptionPane.showMessageDialog(null, "You will receive the code if ur email is registered in the database");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if (Integer.valueOf(txtresetcode.getText())==randomCode)
-        {
+        if (Integer.valueOf(txtresetcode.getText()) == randomCode) {
             ResetPassword res = new ResetPassword(txtEmail.getText());
             res.setVisible(true);
             this.setVisible(false);
-        } else
-        {
+        } else {
             JOptionPane.showMessageDialog(null, "Code Do Not Match");
         }
     }//GEN-LAST:event_jButton1ActionPerformed

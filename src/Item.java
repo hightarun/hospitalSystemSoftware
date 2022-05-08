@@ -1,5 +1,4 @@
 
- 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,114 +12,82 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Item extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Patient
-     */
     public Item() {
         initComponents();
         Connect();
-         AutoID();
-         Item_table();
+        AutoID();
+        Item_table();
     }
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
-     public void Connect()
-     {
+
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
-     
-     
-     
-     
-     public void AutoID()
-     {
+    }
+
+    public void AutoID() {
         try {
             Statement s = con.createStatement();
             rs = s.executeQuery("Select MAX(itemid) from item");
             rs.next();
             rs.getString("MAX(itemid)");
-            
-            if(rs.getString("MAX(itemid)")== null){
-             
-                    lblitemid.setText("MD001");
-                
+
+            if (rs.getString("MAX(itemid)") == null) {
+
+                lblitemid.setText("MD001");
+            } else {
+                long id = Long.parseLong(rs.getString("MAX(itemid)").substring(2, rs.getString("MAX(itemid)").length()));
+                id++;
+                lblitemid.setText("MD" + String.format("%03d", id));
             }
-            else{
-            long id =Long.parseLong(rs.getString("MAX(itemid)").substring(2,rs.getString("MAX(itemid)").length()));
-            id++;
-             lblitemid.setText("MD"+String.format("%03d", id));
-            }
-            
-            
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     
-     
-     
-     
-     
-     
-     } 
-     
-     public void Item_table()
-     {
+
+    }
+
+    public void Item_table() {
         try {
-            pst=con.prepareStatement("select * from item");
-             rs= pst.executeQuery();
-      
-      
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-          
-          df.setRowCount(0);
-        
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString("itemid"));
-           v2.add(rs.getString("itemname"));
-           v2.add(rs.getString("description"));
-           v2.add(rs.getString("sellprice"));
-           v2.add(rs.getString("buyprice"));
-           v2.add(rs.getString("qty"));
-              
-          }
-           df.addRow(v2);
-          }
-          
-          
-          
-          
+            pst = con.prepareStatement("select * from item");
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+            df.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("itemid"));
+                    v2.add(rs.getString("itemname"));
+                    v2.add(rs.getString("description"));
+                    v2.add(rs.getString("sellprice"));
+                    v2.add(rs.getString("buyprice"));
+                    v2.add(rs.getString("qty"));
+
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     
-     
-     
-     
-     
-     }
-     
-     
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -336,7 +303,7 @@ public class Item extends javax.swing.JFrame {
             pst.setString(5, buyprice);
             pst.setString(6, qty);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Item Inserted!");
+            JOptionPane.showMessageDialog(this, "Item Inserted!");
 
             AutoID();
             txtname.setText("");
@@ -357,7 +324,7 @@ public class Item extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-       
+
         String itemname = txtname.getText();
         String itemdes = txtdes.getText();
         String sellprice = txtsellprice.getText();
@@ -365,7 +332,7 @@ public class Item extends javax.swing.JFrame {
         String qty = txtqty.getText();
         String itemno = lblitemid.getText();
 
-      try {
+        try {
             pst = con.prepareStatement("update item set itemname = ?, description = ?, sellprice = ?, buyprice = ?, qty = ? where itemid = ?");
 
             pst.setString(1, itemname);
@@ -375,7 +342,7 @@ public class Item extends javax.swing.JFrame {
             pst.setString(5, qty);
             pst.setString(6, itemno);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Item Updated!");
+            JOptionPane.showMessageDialog(this, "Item Updated!");
 
             AutoID();
             txtname.setText("");
@@ -386,7 +353,7 @@ public class Item extends javax.swing.JFrame {
             txtqty.setText("");
 
             txtname.requestFocus();
-            Item_table(); 
+            Item_table();
 
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
@@ -404,9 +371,8 @@ public class Item extends javax.swing.JFrame {
             pst.setString(1, itemno);
 
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Item Deleted!");
+            JOptionPane.showMessageDialog(this, "Item Deleted!");
 
-           
             AutoID();
             txtname.setText("");
             txtdes.setText("");
@@ -433,16 +399,15 @@ public class Item extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int SelectIndex = jTable1.getSelectedRow();
 
-        lblitemid.setText(d1.getValueAt(SelectIndex,0).toString());
+        lblitemid.setText(d1.getValueAt(SelectIndex, 0).toString());
         txtname.setText(d1.getValueAt(SelectIndex, 1).toString());
         txtdes.setText(d1.getValueAt(SelectIndex, 2).toString());
         txtsellprice.setText(d1.getValueAt(SelectIndex, 3).toString());
         txtbprice.setText(d1.getValueAt(SelectIndex, 4).toString());
         txtqty.setText(d1.getValueAt(SelectIndex, 5).toString());
-
 
         jButton1.setEnabled(false);
 

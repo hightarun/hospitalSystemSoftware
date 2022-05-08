@@ -1,5 +1,4 @@
 
- 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Report extends javax.swing.JFrame {
 
     /**
@@ -22,65 +20,55 @@ public class Report extends javax.swing.JFrame {
         Connect();
         Sales_table();
     }
-   Connection con;
+    Connection con;
     PreparedStatement pst;
     ResultSet rs;
-        
-    
-     public void Connect()
-     {
+
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
-    
-    
-    
-      public void Sales_table()
-     {
+    }
+
+    public void Sales_table() {
         try {
-            pst=con.prepareStatement(" select * from sales");
-            
-            rs= pst.executeQuery();
-      
-      
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-          
-          df.setRowCount(0);
-   
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString("id"));
-           v2.add(rs.getString("date"));
-           v2.add(rs.getString("subtotal"));
-           v2.add(rs.getString("pay"));
-           v2.add(rs.getString("balance"));
-        
-              
-          }
-           df.addRow(v2);
-          }
-          
-          
-          
-          
+            pst = con.prepareStatement(" select * from sales");
+
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+            df.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("id"));
+                    v2.add(rs.getString("date"));
+                    v2.add(rs.getString("subtotal"));
+                    v2.add(rs.getString("pay"));
+                    v2.add(rs.getString("balance"));
+
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Channel.Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -193,8 +181,7 @@ public class Report extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        
+
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 

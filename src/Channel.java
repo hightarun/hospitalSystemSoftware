@@ -1,5 +1,4 @@
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,183 +15,156 @@ import javax.swing.table.DefaultTableModel;
 
 public class Channel extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Channel
-     */
     public Channel() {
         initComponents();
         Connect();
-         AutoID();
-         LoadDoctor();
-         LoadPatient();
-         Channel_table();
+        AutoID();
+        LoadDoctor();
+        LoadPatient();
+        Channel_table();
     }
-    
-    
+
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
     String chno;
-    
-    public class Doctor
-    {
+
+    public class Doctor {
+
         String id;
         String name;
-        
-        public Doctor(String id, String name)
-        {
+
+        public Doctor(String id, String name) {
             this.id = id;
             this.name = name;
         }
-        public String toString()
-        {
-            
+
+        public String toString() {
+
             return name;
-            
+
         }
     }
-    
-    public class Patient
-    {
+
+    public class Patient {
+
         String id;
         String name;
-        
-        public Patient(String id, String name)
-        {
+
+        public Patient(String id, String name) {
             this.id = id;
             this.name = name;
         }
-        public String toString()
-        {
-            
+
+        public String toString() {
+
             return name;
-            
+
         }
     }
-    
-      public void LoadPatient()
-    {
+
+    public void LoadPatient() {
         try {
             pst = con.prepareStatement("select * from patient");
             rs = pst.executeQuery();
             txtpatient.removeAll();
-            
-            
-            while(rs.next())
-            {
-                txtpatient.addItem(new Patient(rs.getString(1),rs.getString(2)));
-                
-                
-                
+
+            while (rs.next()) {
+                txtpatient.addItem(new Patient(rs.getString(1), rs.getString(2)));
+
             }
-                
+
         } catch (SQLException ex) {
             Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
-    public void LoadDoctor()
-    {
+
+    public void LoadDoctor() {
         try {
             pst = con.prepareStatement("select * from doctor");
             rs = pst.executeQuery();
             txtdoctor.removeAll();
-            
-            
-            while(rs.next())
-            {
-                txtdoctor.addItem(new Doctor(rs.getString(1),rs.getString(2)));
-                
-                
-                
+
+            while (rs.next()) {
+                txtdoctor.addItem(new Doctor(rs.getString(1), rs.getString(2)));
+
             }
-                
+
         } catch (SQLException ex) {
             Logger.getLogger(Channel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-            
-    public void Connect()
-     {
+
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
-    
-      public void AutoID()
-     {
+    }
+
+    public void AutoID() {
         try {
             Statement s = con.createStatement();
             rs = s.executeQuery("Select MAX(channelno) from channel");
             rs.next();
             rs.getString("MAX(channelno)");
-            
-            if(rs.getString("MAX(channelno)")== null){
-             
-                    lblchno.setText("CH001");
-                
+
+            if (rs.getString("MAX(channelno)") == null) {
+
+                lblchno.setText("CH001");
+
+            } else {
+                long iD = Long.parseLong(rs.getString("MAX(channelno)").substring(2, rs.getString("MAX(channelno)").length()));
+                ++iD;
+                lblchno.setText("CH" + String.format("%03d", iD));
+
             }
-            else
-            {
-            long iD =Long.parseLong(rs.getString("MAX(channelno)").substring(2,rs.getString("MAX(channelno)").length()));
-            ++iD;
-             lblchno.setText("CH"+String.format("%03d", iD));
-          
-            }
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     }
-       public void Channel_table()
-     {
+
+    }
+
+    public void Channel_table() {
         try {
-            pst=con.prepareStatement("select * from channel");
-             rs= pst.executeQuery();
-      
-      
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-          
-          df.setRowCount(0);
-        
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString("channelno"));
-           v2.add(rs.getString("doctorname"));
-           v2.add(rs.getString("patientname"));
-           v2.add(rs.getString("roomno"));
-           v2.add(rs.getString("date"));
-           v2.add(rs.getString("time"));
-              
-          }
-           df.addRow(v2);
-          }
-          
-          
-          
-          
+            pst = con.prepareStatement("select * from channel");
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+            df.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("channelno"));
+                    v2.add(rs.getString("doctorname"));
+                    v2.add(rs.getString("patientname"));
+                    v2.add(rs.getString("roomno"));
+                    v2.add(rs.getString("date"));
+                    v2.add(rs.getString("time"));
+
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     }
-     
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -365,8 +337,8 @@ public class Channel extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         String chno = lblchno.getText();
-       
+        String chno = lblchno.getText();
+
         Doctor d = (Doctor) txtdoctor.getSelectedItem();
         Patient p = (Patient) txtpatient.getSelectedItem();
         String room = txtroom.getValue().toString();
@@ -384,74 +356,63 @@ public class Channel extends javax.swing.JFrame {
             pst.setString(4, room);
             pst.setString(5, date);
             pst.setString(6, time);
-            
+
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Channel Created");
+            JOptionPane.showMessageDialog(this, "Channel Created");
 
             AutoID();
-            
+
             txtdoctor.setSelectedIndex(-1);
-           txtpatient.setSelectedIndex(-1);
+            txtpatient.setSelectedIndex(-1);
             txtroom.setValue(0);
-           Channel_table();  
-         
-           
+            Channel_table();
 
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-        
-      
 
         try {
             pst = con.prepareStatement("delete from channel where channelno = ?");
 
             pst.setString(1, chno);
-            
-            
+
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Channel Deleted");
+            JOptionPane.showMessageDialog(this, "Channel Deleted");
 
             AutoID();
             lblchno.setText("");
             txtdoctor.setSelectedIndex(-1);
-           txtpatient.setSelectedIndex(-1);
+            txtpatient.setSelectedIndex(-1);
             txtroom.setValue(0);
-           Channel_table();  
-         
-           
+            Channel_table();
 
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        
-        
+
         DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectIndex = jTable1.getSelectedRow();
         chno = d1.getValueAt(selectIndex, 0).toString();
-        
+
         //JOptionPane.showMessageDialog(this, chno);
-        
-        
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-          dispose();
+        dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

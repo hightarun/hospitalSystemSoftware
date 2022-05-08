@@ -7,19 +7,14 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class PharmaDashboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PharmaDashboard
-     */
     public PharmaDashboard() {
-         initComponents();
+        initComponents();
         Connect();
-      
-     
+
     }
-    
+
     int userid;
     String uctype;
 
@@ -41,10 +36,9 @@ public class PharmaDashboard extends javax.swing.JFrame {
     public PharmaDashboard(int uid, String utype) {
         initComponents();
         Connect();
-     
+
         this.uctype = utype;
-        this.userid = uid; 
-        
+        this.userid = uid;
 
     }
 

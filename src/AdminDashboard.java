@@ -7,21 +7,19 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class AdminDashboard extends javax.swing.JFrame {
 
     /**
      * Creates new form AdminDashboard
      */
     public AdminDashboard() {
-     
+
         initComponents();
         Connect();
- 
+
     }
 
     int userid;
-   
 
     Connection con;
     PreparedStatement pst;
@@ -41,7 +39,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard(int uid) {
         initComponents();
         Connect();
-     
+
         this.userid = uid;
 
     }
@@ -201,8 +199,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-    Room rm = new Room();
-    rm.setVisible(true);
+        Room rm = new Room();
+        rm.setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

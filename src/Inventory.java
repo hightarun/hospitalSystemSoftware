@@ -20,12 +20,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Inventory extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Inventory
-     */
     public Inventory() {
         initComponents();
 
@@ -118,7 +114,7 @@ public class Inventory extends javax.swing.JFrame {
             }
             JOptionPane.showMessageDialog(this, "Record Added");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,e);
+            JOptionPane.showMessageDialog(null, e);
         }
 
     }
@@ -458,7 +454,6 @@ public class Inventory extends javax.swing.JFrame {
                 if (qty >= currentqty) {
                     JOptionPane.showMessageDialog(this, "Qty is not Enough");
                     JOptionPane.showMessageDialog(this, "Available Product" + " = " + currentqty);
-                    
 
                 } else {
 
@@ -486,7 +481,7 @@ public class Inventory extends javax.swing.JFrame {
                     txtqty.setValue(0);
                     txtcode.requestFocus();
                 }
-                
+
             }
         } catch (SQLException ex) {
 
@@ -517,7 +512,7 @@ public class Inventory extends javax.swing.JFrame {
         try {
 
             PdfWriter.getInstance(doc, new FileOutputStream(path + npno + ".pdf"));
-            doc.open();     
+            doc.open();
             Paragraph paragraph1 = new Paragraph("                                                                    INVOICE");
             doc.add(paragraph1);
             Paragraph paragraph2 = new Paragraph("                                                               Kailash Hospital");
@@ -539,25 +534,23 @@ public class Inventory extends javax.swing.JFrame {
             int gtotal = 0;
 
             PdfPTable table = new PdfPTable(5);
-           
-               
-                PdfPCell cell2 = new PdfPCell(new Paragraph("Drug ID"));
-                PdfPCell cell3 = new PdfPCell(new Paragraph("MD Name"));
-                PdfPCell cell4 = new PdfPCell(new Paragraph("Quantity"));
-                PdfPCell cell5 = new PdfPCell(new Paragraph("price"));
-                PdfPCell cell6 = new PdfPCell(new Paragraph("Total"));
-               
 
-                table.addCell(cell2);
-                table.addCell(cell3);
-                table.addCell(cell4);
-                table.addCell(cell5);
-                table.addCell(cell6);
-               
+            PdfPCell cell2 = new PdfPCell(new Paragraph("Drug ID"));
+            PdfPCell cell3 = new PdfPCell(new Paragraph("MD Name"));
+            PdfPCell cell4 = new PdfPCell(new Paragraph("Quantity"));
+            PdfPCell cell5 = new PdfPCell(new Paragraph("price"));
+            PdfPCell cell6 = new PdfPCell(new Paragraph("Total"));
+
+            table.addCell(cell2);
+            table.addCell(cell3);
+            table.addCell(cell4);
+            table.addCell(cell5);
+            table.addCell(cell6);
+
             // fetch from table
             for (int i = 0; i < jTable1.getRowCount(); i++) {
                 item_id = (String) jTable1.getValueAt(i, 1);
-                name = (String) jTable1.getValueAt(i,2);
+                name = (String) jTable1.getValueAt(i, 2);
                 qty = jTable1.getValueAt(i, 3).toString();
                 price = jTable1.getValueAt(i, 4).toString();
                 total = jTable1.getValueAt(i, 5).toString();
@@ -567,16 +560,16 @@ public class Inventory extends javax.swing.JFrame {
                 PdfPCell cell10 = new PdfPCell(new Paragraph(qty));
                 PdfPCell cell11 = new PdfPCell(new Paragraph(price));
                 PdfPCell cell12 = new PdfPCell(new Paragraph(total));
-             
+
                 table.addCell(cell8);
                 table.addCell(cell9);
                 table.addCell(cell10);
                 table.addCell(cell11);
                 table.addCell(cell12);
-            }    
+            }
             doc.add(table);
-            
-            Paragraph paragraph4 = new Paragraph("\n                                                                                                                      Total : "+ gtotal);
+
+            Paragraph paragraph4 = new Paragraph("\n                                                                                                                      Total : " + gtotal);
             doc.add(paragraph4);
 
             JOptionPane.showMessageDialog(null, "BILL GENERATED");

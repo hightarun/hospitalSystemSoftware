@@ -1,5 +1,4 @@
 
- 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,9 +10,6 @@ import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
     public Login() {
         initComponents();
     }
@@ -22,18 +18,16 @@ public class Login extends javax.swing.JFrame {
     PreparedStatement pst;
     ResultSet rs;
 
-    public void Connect()
-    {   
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-             con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
-                       
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
+
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -194,13 +188,12 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        // TODO add your handling code here:
+
         System.exit(0);
 
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
 
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -220,56 +213,36 @@ public class Login extends javax.swing.JFrame {
 
             rs = pst.executeQuery();
 
-            if (rs.next())
-            {
-                
-                if (txtutype.getSelectedIndex()==0)
-                {
+            if (rs.next()) {
+
+                if (txtutype.getSelectedIndex() == 0) {
                     int userid = rs.getInt("id");
                     DoctorDashboard d = new DoctorDashboard(userid, username, utype);
                     d.setVisible(true);
                     this.setVisible(false);
-                }
-                else if (txtutype.getSelectedIndex()==1)
-                {
-                   int userid = rs.getInt("id");
-                    RecepDashboard rec = new RecepDashboard(userid , utype);
+                } else if (txtutype.getSelectedIndex() == 1) {
+                    int userid = rs.getInt("id");
+                    RecepDashboard rec = new RecepDashboard(userid, utype);
                     rec.setVisible(true);
                     this.setVisible(false);
-                }
-                else if (txtutype.getSelectedIndex()==2)
-                {
+                } else if (txtutype.getSelectedIndex() == 2) {
                     int userid = rs.getInt("id");
-                    PharmaDashboard phar = new PharmaDashboard(userid , utype);
+                    PharmaDashboard phar = new PharmaDashboard(userid, utype);
                     phar.setVisible(true);
                     this.setVisible(false);
-                }
-                    else
-                {
+                } else {
                     int userid = rs.getInt("id");
                     AdminDashboard adm = new AdminDashboard(userid);
                     adm.setVisible(true);
                     this.setVisible(false);
                 }
-                
-                
-                
-                
-               int userid = rs.getInt("id");
-               this.setVisible(false);
-              // new Main(userid, username, utype).setVisible(true);
-
-            }
-
-            else
-            {
-
+                this.setVisible(false);
+            } else {
                 JOptionPane.showMessageDialog(this, "Username or Password do not Match");
                 txtusername.setText("");
                 txtpass.setText("");
                 txtutype.setSelectedIndex(-1);
                 txtusername.requestFocus();
-
             }
 
         } catch (SQLException ex) {
@@ -278,7 +251,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       ForgotPassword u = new ForgotPassword();
+        ForgotPassword u = new ForgotPassword();
         u.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 

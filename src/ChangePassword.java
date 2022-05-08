@@ -5,27 +5,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
-
 public class ChangePassword extends javax.swing.JFrame {
- Connection con = null;
+
+    Connection con = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
-    
-    /**
-     * Creates new form ChangePassword
-     */
-   
+
     int userId;
-    
+
     public ChangePassword() {
         initComponents();
     }
-    
-    public ChangePassword(int uid)
-    {
-        this.userId=uid;
+
+    public ChangePassword(int uid) {
+        this.userId = uid;
         initComponents();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -149,47 +145,45 @@ public class ChangePassword extends javax.swing.JFrame {
         // TODO add your handling code here:
         boolean flag = false;
         String password = txtresetpass.getText();
-        try{
-                if(password.length() > 6){
-                String Query = "SELECT password FROM user where id = '"+userId+"'";
+        try {
+            if (password.length() > 6) {
+                String Query = "SELECT password FROM user where id = '" + userId + "'";
                 //"UPDATE user SET password=? WHERE email="+user+"";
-                con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
-                pst=con.prepareStatement(Query);
+                con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
+                pst = con.prepareStatement(Query);
                 rs = pst.executeQuery();
                 rs.next();
-                if(!(txtresetpass3.getText().equals(rs.getString(1))))
-                {
+                if (!(txtresetpass3.getText().equals(rs.getString(1)))) {
                     JOptionPane.showMessageDialog(null, "Current password is incorrect");
                     return;
-                }  
-                else{
+                } else {
                     flag = true;
-                }}
-                else {
-                JOptionPane.showMessageDialog(this,"Passwords must have at least 6 characters.");
-               
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Passwords must have at least 6 characters.");
+
             }
-   
-            }catch(Exception ex){
-                JOptionPane.showMessageDialog(null, ex);
-            }
-        
-        if(txtresetpass.getText().equals(txtresetpass2.getText()) && flag){
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
+        if (txtresetpass.getText().equals(txtresetpass2.getText()) && flag) {
             //check whether the user enter same password in both textfield
-            try{
-               
-                String updateQuery = "UPDATE `user` SET `password`= ? WHERE id = '"+userId+"'";
+            try {
+
+                String updateQuery = "UPDATE `user` SET `password`= ? WHERE id = '" + userId + "'";
                 //"UPDATE user SET password=? WHERE email="+user+"";
-                con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
-                pst=con.prepareStatement(updateQuery);
+                con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
+                pst = con.prepareStatement(updateQuery);
                 pst.setString(1, txtresetpass2.getText());
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Reset Successfully");
 
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "password do not match");
         }
         txtresetpass.setText("");

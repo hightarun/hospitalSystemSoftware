@@ -25,15 +25,11 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Discharge extends javax.swing.JFrame {
 
-    /**
-     * Creates new form NewJFrame
-     */
     public Discharge() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(153,102,255));
+        getContentPane().setBackground(new java.awt.Color(153, 102, 255));
         Connect();
         AdmitTable();
         init();
@@ -62,7 +58,6 @@ public class Discharge extends javax.swing.JFrame {
     ArrayList<String> billServices = new ArrayList<String>();
     String billDdate;
     String billTotalRoomDays;
- 
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -306,82 +301,78 @@ public class Discharge extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AdmitTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdmitTableMouseClicked
-        
+
         DefaultTableModel d1 = (DefaultTableModel) AdmitTable.getModel();
         int SelectIndex = AdmitTable.getSelectedRow();
-  
-        if(d1.getValueAt(SelectIndex, 2).toString().equals("Discharged"))
-        {
-           JOptionPane.showMessageDialog(this,"Patient already discharged.");
-        } 
-        else{
-         String patName = d1.getValueAt(SelectIndex, 0).toString();
-        String roomNo = d1.getValueAt(SelectIndex, 1).toString();
-        String docName = d1.getValueAt(SelectIndex, 3).toString();
-        String date = d1.getValueAt(SelectIndex, 5).toString();
-        int days, roomCost = 2500;
-        
-        //room type to get roomcost
-        try {
-            pst = con.prepareStatement("select RoomType from Room where RoomNo = ?");
-            pst.setString(1, roomNo);
-            rs = pst.executeQuery();
-            rs.next();
-            if (rs.getString(1).equals("General")) {
-                roomCost = 1200;
+
+        if (d1.getValueAt(SelectIndex, 2).toString().equals("Discharged")) {
+            JOptionPane.showMessageDialog(this, "Patient already discharged.");
+        } else {
+            String patName = d1.getValueAt(SelectIndex, 0).toString();
+            String roomNo = d1.getValueAt(SelectIndex, 1).toString();
+            String docName = d1.getValueAt(SelectIndex, 3).toString();
+            String date = d1.getValueAt(SelectIndex, 5).toString();
+            int days, roomCost = 2500;
+
+            //room type to get roomcost
+            try {
+                pst = con.prepareStatement("select RoomType from Room where RoomNo = ?");
+                pst.setString(1, roomNo);
+                rs = pst.executeQuery();
+                rs.next();
+                if (rs.getString(1).equals("General")) {
+                    roomCost = 1200;
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Discharge.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(Discharge.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            //set fields from table and calculate roomCharge
+            try {
+                Date admitdate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                txtadate.setDate(admitdate);
+                txtpname.setText(patName);
+                txtroomno.setText(roomNo);
+                txtdoc.setText(docName);
+                Date adate = new Date();
+                txtdate.setDate(adate);
+                if (!txtdoc.equals("")) {
+                    jButton4.setEnabled(true);
+                }
 
-        //set fields from table and calculate roomCharge
-        try {
-            Date admitdate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            txtadate.setDate(admitdate);
-            txtpname.setText(patName);
-            txtroomno.setText(roomNo);
-            txtdoc.setText(docName);
-             Date adate = new Date();
-            txtdate.setDate(adate);
-            if(!txtdoc.equals("")){
-                jButton4.setEnabled(true);
+                SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
+                String startDate = dateformat.format(txtadate.getDate());
+                String endDate = dateformat.format(txtdate.getDate());
+
+                Date dateBefore = dateformat.parse(startDate);
+                Date dateAfter = dateformat.parse(endDate);
+                long difference = dateAfter.getTime() - dateBefore.getTime();
+                days = (int) (difference / (1000 * 60 * 60 * 24));
+                roomCharge = days * roomCost;
+                billTotalRoomDays = String.valueOf(days);
+                if (roomCost == 1200) {
+                    billRoomType = "General";
+                } else {
+                    billRoomType = "Deluxe";
+                }
+
+            } catch (ParseException ex) {
+                System.out.println(ex);
             }
 
-            SimpleDateFormat dateformat = new SimpleDateFormat("dd MM yyyy");
-            String startDate = dateformat.format(txtadate.getDate());
-            String endDate = dateformat.format(txtdate.getDate());
-
-            Date dateBefore = dateformat.parse(startDate);
-            Date dateAfter = dateformat.parse(endDate);
-            long difference = dateAfter.getTime() - dateBefore.getTime();
-            days = (int) (difference / (1000 * 60 * 60 * 24));
-            roomCharge = days * roomCost;
-            billTotalRoomDays = String.valueOf(days);
-            if(roomCost == 1200)
-            {
-                billRoomType = "General";
-            }else
-            {
-                billRoomType = "Deluxe";
-            }
-
-        } catch (ParseException ex) {
-            System.out.println(ex);
-        }
-            
         }
 
     }//GEN-LAST:event_AdmitTableMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //generate bill
-          String path = "D:/PDF/";
+        String path = "D:/PDF/";
         Document doc = new Document();
         try {
 
             PdfWriter.getInstance(doc, new FileOutputStream(path + billPname + ".pdf"));
-            doc.open();     
+            doc.open();
             Paragraph paragraph1 = new Paragraph("                                                                    INVOICE");
             doc.add(paragraph1);
             Paragraph paragraph2 = new Paragraph("                                                               Kailash Hospital");
@@ -394,33 +385,30 @@ public class Discharge extends javax.swing.JFrame {
             doc.add(paragraph5);
             Paragraph paragraph6 = new Paragraph(" Doctor Name: " + billDname + "\n\n\n\n");
             doc.add(paragraph6);
-       
 
             PdfPTable table = new PdfPTable(1);
 
             PdfPCell cell = new PdfPCell(new Paragraph("Services :"));
             table.addCell(cell);
- 
-                for(int i =0 ; i < billServices.size(); i++)
-                {
-                    PdfPCell cell2 = new PdfPCell(new Paragraph("               -"+billServices.get(i)));
-                    table.addCell(cell2);
-                }
-                PdfPCell cell5 = new PdfPCell(new Paragraph("Total Service Charge                                                                  |" + " Rs."+ billServiceCost+"/-" ));
-                 table.addCell(cell5);
-                 PdfPCell cell4 = new PdfPCell(new Paragraph("Total Room Charge" + " (" + billRoomType + ") " + " for " + billTotalRoomDays  + " days                                  |" + " Rs." + roomCharge+ "/-"));
-                 table.addCell(cell4);
-                  
+
+            for (int i = 0; i < billServices.size(); i++) {
+                PdfPCell cell2 = new PdfPCell(new Paragraph("               -" + billServices.get(i)));
+                table.addCell(cell2);
+            }
+            PdfPCell cell5 = new PdfPCell(new Paragraph("Total Service Charge                                                                  |" + " Rs." + billServiceCost + "/-"));
+            table.addCell(cell5);
+            PdfPCell cell4 = new PdfPCell(new Paragraph("Total Room Charge" + " (" + billRoomType + ") " + " for " + billTotalRoomDays + " days                                  |" + " Rs." + roomCharge + "/-"));
+            table.addCell(cell4);
+
             doc.add(table);
-            
-           
-            float taxs = Float.parseFloat(totalcost.getText())*0.05f;
+
+            float taxs = Float.parseFloat(totalcost.getText()) * 0.05f;
             float totalCost = Float.parseFloat(totalcost.getText());
-            Paragraph paragraph4 = new Paragraph("\n\n\n\n\n\n                                                                                                                     Total : "+ totalCost);
+            Paragraph paragraph4 = new Paragraph("\n\n\n\n\n\n                                                                                                                     Total : " + totalCost);
             doc.add(paragraph4);
-            Paragraph paragraph12 = new Paragraph("\n                                                                                                                  Tax(5%) : "+ taxs);
+            Paragraph paragraph12 = new Paragraph("\n                                                                                                                  Tax(5%) : " + taxs);
             doc.add(paragraph12);
-            Paragraph paragraph13 = new Paragraph("\n                                                                                                          Amount Paid : "+ billTotalCost);
+            Paragraph paragraph13 = new Paragraph("\n                                                                                                          Amount Paid : " + billTotalCost);
             doc.add(paragraph13);
 
             JOptionPane.showMessageDialog(null, " DISCHARGE BILL GENERATED");
@@ -430,49 +418,49 @@ public class Discharge extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
 
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void servicenameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_servicenameItemStateChanged
-        
+
     }//GEN-LAST:event_servicenameItemStateChanged
 
     private void servicenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_servicenameActionPerformed
-        
+
     }//GEN-LAST:event_servicenameActionPerformed
 
     private void servicenameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_servicenameMouseClicked
-        
+
     }//GEN-LAST:event_servicenameMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String servicee = servicename.getSelectedItem().toString();
-        
-         DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
 
-            try{
+        DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
 
-                String sql= "SELECT ServiceCost from services where ServiceName='"+servicee+"'";
-                pst=con.prepareStatement(sql);
-                rs=pst.executeQuery();
-                rs.next();
-                Vector v2 = new Vector();
-         
-                 v2.add(servicee);
-                 v2.add(rs.getString(1));
-                 df.addRow(v2);
-              
-               }catch(HeadlessException | SQLException ex){
-                   JOptionPane.showMessageDialog(this,ex); 
-               }
-         
+        try {
+
+            String sql = "SELECT ServiceCost from services where ServiceName='" + servicee + "'";
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            rs.next();
+            Vector v2 = new Vector();
+
+            v2.add(servicee);
+            v2.add(rs.getString(1));
+            df.addRow(v2);
+
+        } catch (HeadlessException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       //DISCHARGE
+        //DISCHARGE
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-         
+
         String pname = txtpname.getText();
         String roomno = txtroomno.getText();
         String admitDate = dateformat.format(txtadate.getDate());
@@ -480,79 +468,77 @@ public class Discharge extends javax.swing.JFrame {
         String dischargeDate = dateformat.format(txtdate.getDate());
         String admitStatus = "Discharged";
         String roomStatus = "Vacant";
-        
+
         //for bill
-        billPname= pname;
+        billPname = pname;
         billDname = docname;
         billDdate = dischargeDate;
-        
+
         Float serviceCost = 0f;
-        
+
         //update discharge table
-        try{
+        try {
             pst = con.prepareStatement("insert into discharge(PatientName, RoomNo, AdmitDate, DoctorName, DischargeDate) values(?,?,?,?,?)");
 
             pst.setString(1, pname);
-            pst.setString(2, roomno );
-            pst.setString(3, admitDate );
-            pst.setString(4, docname );
-            pst.setString(5, dischargeDate );
-            
+            pst.setString(2, roomno);
+            pst.setString(3, admitDate);
+            pst.setString(4, docname);
+            pst.setString(5, dischargeDate);
+
             pst.executeUpdate();
             AdmitTable();
 
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex);
         }
-       
+
         //get services from service table
-        DefaultTableModel df = (DefaultTableModel)jTable1.getModel();   
-        
-         for (int i = 0; i < jTable1.getRowCount(); i++) {       
-             billServices.add(jTable1.getValueAt(i,0).toString());
-             serviceCost += Float.parseFloat(jTable1.getValueAt(i, 1).toString());  
-         }
+        DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+            billServices.add(jTable1.getValueAt(i, 0).toString());
+            serviceCost += Float.parseFloat(jTable1.getValueAt(i, 1).toString());
+        }
 
         billServiceCost = String.valueOf(serviceCost);
-        
+
         //set bill
-        
-   
-         roomcost.setText(Float.toString(roomCharge));
-         servicecost.setText(Float.toString(serviceCost));
-        
-         totalcost.setText(Float.toString(roomCharge+serviceCost));
-         
-         float tax = (roomCharge+serviceCost)*0.05f;
-         float billAmount = (roomCharge+serviceCost) + tax;
-         totalbill.setText(Float.toString(billAmount));
-         billTotalCost = Float.toString(billAmount);
-         
-       //set patient admit status to discharged
-        try{
+        roomcost.setText(Float.toString(roomCharge));
+        servicecost.setText(Float.toString(serviceCost));
+
+        totalcost.setText(Float.toString(roomCharge + serviceCost));
+
+        float tax = (roomCharge + serviceCost) * 0.05f;
+        float billAmount = (roomCharge + serviceCost) + tax;
+        totalbill.setText(Float.toString(billAmount));
+        billTotalCost = Float.toString(billAmount);
+
+        //set patient admit status to discharged
+        try {
             pst = con.prepareStatement("update admit set AdmitStatus=? where RoomNo=? ");
 
             pst.setString(1, admitStatus);
-            pst.setString(2, roomno );
+            pst.setString(2, roomno);
             pst.executeUpdate();
             AdmitTable();
 
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex);
         }
-       
-       //set room status to vacant
-        try{
+
+        //set room status to vacant
+        try {
             pst = con.prepareStatement("update Room set RoomStatus=? where Roomno=? ");
 
             pst.setString(1, roomStatus);
-            pst.setString(2, roomno );
+            pst.setString(2, roomno);
             pst.executeUpdate();
-          
-        }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             System.out.println(ex);
         }
-        
+
         //clear fields
         txtpname.setText("");
         txtroomno.setText("");
@@ -560,19 +546,19 @@ public class Discharge extends javax.swing.JFrame {
         txtadate.setCalendar(null);
         txtdate.setCalendar(null);
         servicename.setSelectedIndex(-1);
-          DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
-          d1.setRowCount(0);
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
+        d1.setRowCount(0);
         jButton4.setEnabled(false);
-        
+
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int SelectIndex = jTable1.getSelectedRow();
-        
+
         d1.removeRow(SelectIndex);
-        JOptionPane.showMessageDialog(this,"Service Removed");
+        JOptionPane.showMessageDialog(this, "Service Removed");
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void roomcostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomcostActionPerformed
@@ -594,21 +580,23 @@ public class Discharge extends javax.swing.JFrame {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        private void FillServices(){
 
-            try{
+    private void FillServices() {
 
-                String sql= "SELECT ServiceName from services";
-                pst=con.prepareStatement(sql);
-                rs=pst.executeQuery();
-                while(rs.next()){
-                  String add=rs.getString("ServiceName");
-                  servicename.addItem(add);
-                  }
-               }catch(HeadlessException | SQLException ex){
-                   JOptionPane.showMessageDialog(this,ex); 
-               }
+        try {
+
+            String sql = "SELECT ServiceName from services";
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                String add = rs.getString("ServiceName");
+                servicename.addItem(add);
+            }
+        } catch (HeadlessException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
         }
+    }
+
     public void AdmitTable() {
         try {
             pst = con.prepareStatement("select PatientName, RoomNo, AdmitStatus, DocName, Remarks, AdmitDate from admit");
@@ -624,17 +612,17 @@ public class Discharge extends javax.swing.JFrame {
             while (rs.next()) {
 
                 Vector v2 = new Vector();
-              
-                    for (int i = 1; i <= c; i++) {
+
+                for (int i = 1; i <= c; i++) {
                     v2.add(rs.getString(1));
                     v2.add(rs.getString(2));
                     v2.add(rs.getString(3));
                     v2.add(rs.getString(4));
                     v2.add(rs.getString(5));
                     v2.add(rs.getString(6));
-                
+
                 }
-               
+
                 df.addRow(v2);
             }
 

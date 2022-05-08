@@ -14,25 +14,22 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class PatientAdmit extends javax.swing.JFrame {
 
-  
     public PatientAdmit() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(153,102,255));
+        getContentPane().setBackground(new java.awt.Color(153, 102, 255));
         Connect();
         Channel_table();
         fillRoomNo();
         AdmitTable();
     }
-    
+
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
     String chno;
 
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -297,173 +294,160 @@ public class PatientAdmit extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
 
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int SelectIndex = jTable1.getSelectedRow();
-        
+
         String ChNo = d1.getValueAt(SelectIndex, 0).toString();
         String docNo = d1.getValueAt(SelectIndex, 1).toString();
         String patNo = d1.getValueAt(SelectIndex, 2).toString();
-        
+
         txtdes.setText("");
-        
-        try{
-           String query = "select name , gender, blood from patient where patientno='"+patNo+"'";
-           pst=con.prepareStatement(query);
-           rs = pst.executeQuery();
-           rs.next();
-           txtpname.setText(rs.getString(1));
-           txtgender.setText(rs.getString(2));
-           txtblood.setText(rs.getString(3));
-        }catch (SQLException ex) {
+
+        try {
+            String query = "select name , gender, blood from patient where patientno='" + patNo + "'";
+            pst = con.prepareStatement(query);
+            rs = pst.executeQuery();
+            rs.next();
+            txtpname.setText(rs.getString(1));
+            txtgender.setText(rs.getString(2));
+            txtblood.setText(rs.getString(3));
+        } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        try{
+
+        try {
             System.out.println(patNo);
-            String query = "select name , special from doctor where doctorno='"+docNo+"'";
-           pst=con.prepareStatement(query);
-           rs = pst.executeQuery();
-           rs.next();
-           txtdocname.setText(rs.getString(1));
-           txtspecial.setText(rs.getString(2));
-           
-        }catch (SQLException ex) {
+            String query = "select name , special from doctor where doctorno='" + docNo + "'";
+            pst = con.prepareStatement(query);
+            rs = pst.executeQuery();
+            rs.next();
+            txtdocname.setText(rs.getString(1));
+            txtspecial.setText(rs.getString(2));
+
+        } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-         try{
+
+        try {
             System.out.println(patNo);
-            String query = "select detype from prescription where channelid='"+ChNo+"'";
-           pst=con.prepareStatement(query);
-           rs = pst.executeQuery();
-           rs.next();
-           txtdes.setText(rs.getString(1));
-           
-        }catch (SQLException ex) {
+            String query = "select detype from prescription where channelid='" + ChNo + "'";
+            pst = con.prepareStatement(query);
+            rs = pst.executeQuery();
+            rs.next();
+            txtdes.setText(rs.getString(1));
+
+        } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
-  
+
 
     }//GEN-LAST:event_jTable1MouseClicked
- public void Connect()
-     {
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
- 
- private void fillRoomNo(){
-    
-    try{
-        
-        String sql= "SELECT RoomNo from Room where RoomStatus='Vacant'";
-        pst=con.prepareStatement(sql);
-        rs=pst.executeQuery();
-        while(rs.next()){
-          String add=rs.getString("RoomNo");
-          cmbRoomNo.addItem(add);
-          }
-       }catch(HeadlessException | SQLException ex){
-           JOptionPane.showMessageDialog(this,ex); 
-       }
-}
-    
-    
-    public void Channel_table()
-     {
+    }
+
+    private void fillRoomNo() {
+
         try {
-            pst=con.prepareStatement("select * from channel");
-             rs= pst.executeQuery();
-      
-      
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-          
-          df.setRowCount(0);
-        
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString("channelno"));
-           v2.add(rs.getString("doctorname"));
-           v2.add(rs.getString("patientname"));
-           v2.add(rs.getString("roomno"));
-           v2.add(rs.getString("date"));
-        
-              
-          }
-           df.addRow(v2);
-          }
-          
-          
-          
-          
+
+            String sql = "SELECT RoomNo from Room where RoomStatus='Vacant'";
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                String add = rs.getString("RoomNo");
+                cmbRoomNo.addItem(add);
+            }
+        } catch (HeadlessException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
+    }
+
+    public void Channel_table() {
+        try {
+            pst = con.prepareStatement("select * from channel");
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+            df.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("channelno"));
+                    v2.add(rs.getString("doctorname"));
+                    v2.add(rs.getString("patientname"));
+                    v2.add(rs.getString("roomno"));
+                    v2.add(rs.getString("date"));
+
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Channel.Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     }
-    public void AdmitTable()
-     {
+
+    }
+
+    public void AdmitTable() {
         try {
-            pst=con.prepareStatement("select PatientName, RoomNo, AdmitStatus, DocName, Remarks, AdmitDate from admit");
-             rs= pst.executeQuery();
-      
-      
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)AdmitTable.getModel();
-          
-          df.setRowCount(0);
-        
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString(1));
-           v2.add(rs.getString(2));
-           v2.add(rs.getString(3));
-           v2.add(rs.getString(4));
-           v2.add(rs.getString(5));
-           v2.add(rs.getString(6));
-              
-          }
-           df.addRow(v2);
-          }
-          
+            pst = con.prepareStatement("select PatientName, RoomNo, AdmitStatus, DocName, Remarks, AdmitDate from admit");
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) AdmitTable.getModel();
+
+            df.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString(1));
+                    v2.add(rs.getString(2));
+                    v2.add(rs.getString(3));
+                    v2.add(rs.getString(4));
+                    v2.add(rs.getString(5));
+                    v2.add(rs.getString(6));
+
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
-           
+
         }
-     
-     }
+    }
     private void cmbRoomNoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbRoomNoItemStateChanged
 
     }//GEN-LAST:event_cmbRoomNoItemStateChanged
 
     private void cmbRoomNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRoomNoActionPerformed
-       
+
     }//GEN-LAST:event_cmbRoomNoActionPerformed
 
     private void AdmitTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdmitTableMouseClicked
-       
+
     }//GEN-LAST:event_AdmitTableMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         //save
         String pname = txtpname.getText();
         String pgender = txtgender.getText();
@@ -477,7 +461,7 @@ public class PatientAdmit extends javax.swing.JFrame {
         String remark = txtremark.getText();
         String roomStatus = "Booked";
         String admitStatus = "Admitted";
-        
+
         try {
             pst = con.prepareStatement("insert into admit(PatientName,Gender,Blood,Disease,AdmitDate,RoomNo,DocName,DocSpec,Remarks,AdmitStatus) values(?,?,?,?,?,?,?,?,?,?)");
 
@@ -492,7 +476,7 @@ public class PatientAdmit extends javax.swing.JFrame {
             pst.setString(9, remark);
             pst.setString(10, admitStatus);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Patient Admitted!");
+            JOptionPane.showMessageDialog(this, "Patient Admitted!");
 
             txtpname.setText("");
             txtgender.setText("");
@@ -503,35 +487,27 @@ public class PatientAdmit extends javax.swing.JFrame {
             txtdocname.setText("");
             txtspecial.setText("");
             txtremark.setText("");
-           
+
             txtpname.requestFocus();
             AdmitTable();
 
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        
-        try{
-             pst = con.prepareStatement("update Room set RoomStatus=? where Roomno=? ");
+
+        try {
+            pst = con.prepareStatement("update Room set RoomStatus=? where Roomno=? ");
 
             pst.setString(1, roomStatus);
-            pst.setString(2, roomno );
+            pst.setString(2, roomno);
 
             pst.executeUpdate();
             cmbRoomNo.removeAllItems();
             fillRoomNo();
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println(ex);
         }
 
-                                        
-
-        
-        
-        
-        
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

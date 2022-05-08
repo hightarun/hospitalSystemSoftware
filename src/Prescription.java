@@ -1,5 +1,4 @@
 
- 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,84 +9,73 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-
 public class Prescription extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Prescription
-     */
     public Prescription() {
         initComponents();
     }
-    
-    
-    
+
     String id;
     String docname;
     String patname;
-    
+
     String newid;
     String newdocname;
     String newpatname;
-     public Prescription(String chno, String dname , String pname) {
+
+    public Prescription(String chno, String dname, String pname) {
         initComponents();
         this.id = chno;
         this.docname = dname;
         this.patname = pname;
-        
-        
+
         newid = id;
         newdocname = docname;
         newpatname = patname;
-        
+
         txtchno.setText(newid);
-    txtchno.setEnabled(false);
-    Connect();
-    AutoID();
-    
- }
-     
-        Connection con;
+        txtchno.setEnabled(false);
+        Connect();
+        AutoID();
+    }
+
+    Connection con;
     PreparedStatement pst;
     ResultSet rs;
-     public void Connect()
-     {
+
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
-     
-      public void AutoID()
-     {
+    }
+
+    public void AutoID() {
         try {
             Statement s = con.createStatement();
             rs = s.executeQuery("Select MAX(pid) from prescription");
             rs.next();
             rs.getString("MAX(pid)");
-            
-            if(rs.getString("MAX(pid)")== null){
-             
-                    txtpno.setText("PC001");
-                
+
+            if (rs.getString("MAX(pid)") == null) {
+
+                txtpno.setText("PC001");
+
+            } else {
+                long id = Long.parseLong(rs.getString("MAX(pid)").substring(2, rs.getString("MAX(pid)").length()));
+                id++;
+                txtpno.setText("PC" + String.format("%03d", id));
             }
-            else{
-            long id =Long.parseLong(rs.getString("MAX(pid)").substring(2,rs.getString("MAX(pid)").length()));
-            id++;
-             txtpno.setText("PC"+String.format("%03d", id));
-            }
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     } 
 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -180,10 +168,10 @@ public class Prescription extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-         String pno = txtpno.getText();
+
+        String pno = txtpno.getText();
         String chno = txtchno.getText();
-        
+
         String deetype = detype.getText();
         String des = txtdes.getText();
 
@@ -197,22 +185,20 @@ public class Prescription extends javax.swing.JFrame {
             pst.setString(5, des);
             pst.setString(6, newpatname);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Prescription Inserted!");
+            JOptionPane.showMessageDialog(this, "Prescription Inserted!");
 
             AutoID();
-          
+
             txtchno.setText("");
             detype.setText("");
             txtdes.setText("");
             txtpno.requestFocus();
-            
 
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

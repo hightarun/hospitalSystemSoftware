@@ -1,5 +1,4 @@
 
- 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,84 +13,76 @@ import javax.swing.table.DefaultTableModel;
 
 public class viewPrescription extends javax.swing.JFrame {
 
-    /**
-     * Creates new form viewPrescription
-     */
     public viewPrescription() {
-        initComponents();  
+        initComponents();
     }
-    
+
     String nuctype;
     int userId;
 
     public viewPrescription(String uctype) {
-        
+
         this.nuctype = uctype;
         initComponents();
         Connect();
         disButton();
         Pres_table();
     }
-    
+
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
 
-        public void disButton(){
-            if(nuctype == "Doctor"){
-                jButton1.setVisible(false);
-            }
+    public void disButton() {
+        if (nuctype == "Doctor") {
+            jButton1.setVisible(false);
         }
+    }
 
-       public void Connect()
-     {
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
-     
-  public void Pres_table()
-     {
+    }
+
+    public void Pres_table() {
         try {
-            pst=con.prepareStatement("select * from prescription");
-             rs= pst.executeQuery();
-      
-      
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-          
-          df.setRowCount(0);
-        
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString("pid"));
-           v2.add(rs.getString("channelid"));
-           v2.add(rs.getString("doctorname"));
-           v2.add(rs.getString("patientname"));
-           v2.add(rs.getString("detype"));
-           v2.add(rs.getString("description"));   
-          }
-           df.addRow(v2);
-          }
-     
-          
+            pst = con.prepareStatement("select * from prescription");
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+            df.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("pid"));
+                    v2.add(rs.getString("channelid"));
+                    v2.add(rs.getString("doctorname"));
+                    v2.add(rs.getString("patientname"));
+                    v2.add(rs.getString("detype"));
+                    v2.add(rs.getString("description"));
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     }
-    
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -170,28 +161,27 @@ public class viewPrescription extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
+
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
-        
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
+
         int SelectedIndex = jTable1.getSelectedRow();
-        
-        String pid = d1.getValueAt(SelectedIndex,0).toString();
-        String pName = d1.getValueAt(SelectedIndex,3).toString();
-        String dName = d1.getValueAt(SelectedIndex,2).toString();
-       try{
-        
-        new Inventory(pid,pName,dName).setVisible(true);
-       }
-       catch(Exception e){
-           JOptionPane.showMessageDialog(this,"Please select appropriate channel");
-       }
-        
- 
+
+        String pid = d1.getValueAt(SelectedIndex, 0).toString();
+        String pName = d1.getValueAt(SelectedIndex, 3).toString();
+        String dName = d1.getValueAt(SelectedIndex, 2).toString();
+        try {
+
+            new Inventory(pid, pName, dName).setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select appropriate channel");
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

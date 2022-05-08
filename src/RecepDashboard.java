@@ -7,17 +7,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class RecepDashboard extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RecepDashboard
-     */
     public RecepDashboard() {
-         initComponents();
+        initComponents();
         Connect();
-      
-     
     }
 
     int userId;
@@ -36,8 +30,8 @@ public class RecepDashboard extends javax.swing.JFrame {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public RecepDashboard(int id , String utype) {
+
+    public RecepDashboard(int id, String utype) {
         initComponents();
         Connect();
         this.userId = id;
@@ -219,12 +213,12 @@ public class RecepDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-         viewDoctor vd = new viewDoctor();
+        viewDoctor vd = new viewDoctor();
         vd.setVisible(true);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-       Channel ch = new Channel();
+        Channel ch = new Channel();
         ch.setVisible(true);
     }//GEN-LAST:event_jLabel8MouseClicked
 
@@ -246,7 +240,7 @@ public class RecepDashboard extends javax.swing.JFrame {
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
         // TODO add your handling code here:
-        Doctor doc = new Doctor(userId,userType);
+        Doctor doc = new Doctor(userId, userType);
         doc.setVisible(true);
     }//GEN-LAST:event_jLabel10MouseClicked
 

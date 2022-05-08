@@ -8,29 +8,27 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class AddServices extends javax.swing.JFrame {
-    
+
     public AddServices() {
         initComponents();
     }
-    
+
     Connection con;
     PreparedStatement pst;
-    
-    
-     public void Connect()
-    {
-        
+
+    public void Connect() {
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-             con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
-                        
-            
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -125,29 +123,26 @@ public class AddServices extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        
+
         String service = txtservice.getText();
         Float cost = Float.parseFloat(txtcost.getText());
-        
+
         Connect();
         try {
             pst = con.prepareStatement("insert into services(ServiceName, ServiceCost)values(?,?)");
             pst.setString(1, service);
             pst.setFloat(2, cost);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Service Added");
-            
+            JOptionPane.showMessageDialog(this, "Service Added");
 
             txtservice.setText("");
             txtcost.setText("");
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
 
 
-                                
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

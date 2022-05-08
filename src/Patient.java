@@ -1,5 +1,4 @@
 
- 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,114 +12,85 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class Patient extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Patient
-     */
     public Patient() {
         initComponents();
         Connect();
-         AutoID();
-         patient_table();
+        AutoID();
+        patient_table();
     }
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
-     public void Connect()
-     {
+
+    public void Connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/hospital", "root", "");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-     }
-     
-     
-     
-     
-     public void AutoID()
-     {
+    }
+
+    public void AutoID() {
         try {
             Statement s = con.createStatement();
             rs = s.executeQuery("Select MAX(patientno) from patient");
             rs.next();
             rs.getString("MAX(patientno)");
-            
-            if(rs.getString("MAX(patientno)")== null){
-             
-                    pno.setText("PS001");
-                
+
+            if (rs.getString("MAX(patientno)") == null) {
+
+                pno.setText("PS001");
+
+            } else {
+                long id = Long.parseLong(rs.getString("MAX(patientno)").substring(2, rs.getString("MAX(patientno)").length()));
+                id++;
+                pno.setText("PS" + String.format("%03d", id));
             }
-            else{
-            long id =Long.parseLong(rs.getString("MAX(patientno)").substring(2,rs.getString("MAX(patientno)").length()));
-            id++;
-             pno.setText("PS"+String.format("%03d", id));
-            }
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     
-     
-     
-     
-     
-     
-     } 
-     
-     public void patient_table()
-     {
+
+    }
+
+    public void patient_table() {
         try {
-            pst=con.prepareStatement("select * from patient");
-             rs= pst.executeQuery();
-      
-      
-      ResultSetMetaData Rsm =rs.getMetaData();
-          int c;
-          c =Rsm.getColumnCount();
-          DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
-          
-          df.setRowCount(0);
-        
-        
-          while(rs.next()){
-          
-          Vector v2 = new Vector();
-          
-          for(int i=1; i<=c;i++){
-           v2.add(rs.getString("patientno"));
-           v2.add(rs.getString("name"));
-           v2.add(rs.getString("gender"));
-           v2.add(rs.getString("blood"));
-           v2.add(rs.getString("phone"));
-           v2.add(rs.getString("address"));
-              
-          }
-           df.addRow(v2);
-          }
-          
-          
-          
-          
+            pst = con.prepareStatement("select * from patient");
+            rs = pst.executeQuery();
+
+            ResultSetMetaData Rsm = rs.getMetaData();
+            int c;
+            c = Rsm.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+
+            df.setRowCount(0);
+
+            while (rs.next()) {
+
+                Vector v2 = new Vector();
+
+                for (int i = 1; i <= c; i++) {
+                    v2.add(rs.getString("patientno"));
+                    v2.add(rs.getString("name"));
+                    v2.add(rs.getString("gender"));
+                    v2.add(rs.getString("blood"));
+                    v2.add(rs.getString("phone"));
+                    v2.add(rs.getString("address"));
+
+                }
+                df.addRow(v2);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
-     
-     
-     
-     
-     
-     }
-     
-     
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -322,7 +292,7 @@ public class Patient extends javax.swing.JFrame {
             pst.setString(5, phone);
             pst.setString(6, address);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Patient Inserted!");
+            JOptionPane.showMessageDialog(this, "Patient Inserted!");
 
             AutoID();
             txtpname.setText("");
@@ -359,7 +329,7 @@ public class Patient extends javax.swing.JFrame {
             pst.setString(6, lblpno);
 
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Patient Updated!");
+            JOptionPane.showMessageDialog(this, "Patient Updated!");
 
             AutoID();
             txtpname.setText("");
@@ -387,7 +357,7 @@ public class Patient extends javax.swing.JFrame {
             pst.setString(1, lblpno);
 
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(this,"Patient Deleted!");
+            JOptionPane.showMessageDialog(this, "Patient Deleted!");
 
             AutoID();
             txtpname.setText("");
@@ -413,10 +383,10 @@ public class Patient extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int SelectIndex = jTable1.getSelectedRow();
 
-        pno.setText(d1.getValueAt(SelectIndex,0).toString());
+        pno.setText(d1.getValueAt(SelectIndex, 0).toString());
         txtpname.setText(d1.getValueAt(SelectIndex, 1).toString());
         txtgender.setText(d1.getValueAt(SelectIndex, 2).toString());
         txtblood.setText(d1.getValueAt(SelectIndex, 3).toString());
@@ -432,7 +402,7 @@ public class Patient extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        /* Create and display the form */
+ /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Patient().setVisible(true);
